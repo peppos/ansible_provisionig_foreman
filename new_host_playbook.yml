@@ -1,0 +1,43 @@
+---
+- name: call API from Satellite
+  hosts: localhost
+  gather_facts: no
+  vars:
+    satelliteurl: myforeman.example.com
+    clientenvironment: production
+    host_name: "testws"
+    hostgroup_id: "13"
+    mac: "00:00:00:00:00:00"
+    ip: "192.168.1.13"
+    arc_id: "1"
+    env_id: "1"
+    domain_id: "1"
+    ptable_id: "88"
+    root_passwd: redhat123
+    location_id: "2"
+    os_id: "1"
+    org_id: "1"
+    sat_user: admin
+    sat_passwd: passwd
+
+
+  tasks:
+
+    - name: Create host in Satellite
+      uri:
+        url: https://{{ satelliteurl }}/api/hosts
+        method: POST
+        user: "{{ sat_user }}"
+        password: "{{ sat_passwd }}"
+        force_basic_auth: yes
+        status_code: 201
+        validate_certs: no
+        headers:
+          Content-Type: "application/json"
+          Accept: application/json,version=2
+        body_format: json
+        body: >
+          {"host":{"name":"{{ host_name }}", "hostgroup_id":"{{ hostgroup_id }}", "mac":"{{ mac }}", "ip":"{{ ip }}", "architecture_id":"{{ arc_id }}", "environment_id":"{{ env_id }}", "domain_id":"{{ domain_id }}", "ptable_id":"{{ ptable_id }}", "root_pass":"{{ root_passwd }}", "location_id":"{{ location_id }}", "operatingsystem_id":"{{ os_id }}", "organization_id":"{{ org_id }}"}}
+      register: restdata
+    - name: output rest data
+      debug: msg="{{ restdata }}"

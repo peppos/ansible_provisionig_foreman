@@ -1,0 +1,58 @@
+---
+- name: Create host in Satellite
+  hosts: localhost
+  gather_facts: no
+  vars:
+    name: test-host-01
+    state: present
+    architecture: x86_64
+    domain: peppo.com
+    environment: KT_lab_Collaudo_Puppet_modules_11
+    provision_method: build
+    root_pass: topsecret
+    foreman_host: myforeman
+    foreman_port: 443
+    foreman_user: admin
+    foreman_pass: password
+    organization: lab
+    managed: true
+    ip: 192.168.11.11
+    operatingsystem: CentOS 7.4.1708
+    subnet: test
+    build: true
+    location: casa
+    medium: "CentOS mirror"
+    foreman_ssl: true
+    mac: 00:00:00:00:00:00
+    ptable: "Kickstart default"
+    enabled: true
+    hostgroup: myhostgroup
+
+
+  tasks:
+
+    - name: Ensure Host
+      foreman_host:
+        name: "{{ name }}"
+        state: "{{ state }}"
+        architecture: "{{ architecture }}"
+        domain: "{{ domain }}"
+        provision_method: "{{ provision_method }}"
+        root_pass: "{{ root_pass }}"
+        foreman_host: "{{ foreman_host }}"
+        foreman_port: "{{ foreman_port }}"
+        foreman_user: "{{ foreman_user }}"
+        foreman_pass: "{{ foreman_pass }}"
+        organization: "{{ organization }}"
+        managed: "{{ managed }}"
+        ip: "{{ ip }}"
+        operatingsystem: "{{ operatingsystem }}"
+        build: "{{ build }}"
+        location: "{{ location }}"
+        medium: "{{ medium }}"
+        foreman_ssl: "{{ foreman_ssl }}"
+        mac: "{{ mac }}"
+        ptable: "{{ ptable }}"
+        enabled: "{{ enabled }}"
+        hostgroup: "{{ hostgroup }}"
+        subnet: "{{ subnet }}"
